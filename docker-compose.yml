@@ -1,6 +1,29 @@
 version: '3.7'
 
 services:
+
+  data_base:
+    image: postgres:11
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - banking_network
+    environment:
+      - POSTGRES_DB=banking-database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8090:8080"
+    networks:
+      - banking_network
+
   prometheus:
     image: prom/prometheus:v2.26.0
     container_name: prometheus
@@ -17,3 +40,7 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+
+networks:
+  banking_network:
+    driver: bridge
