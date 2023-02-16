@@ -11,13 +11,13 @@ import java.util.Date;
 @Getter
 public class ConnectionTest {
 
-    InetAddress address;
+    InetAddress netAddress;
     String createAt;
 
     public static ConnectionTest test() throws UnknownHostException {
         ConnectionTest test = ConnectionTest
                 .builder()
-                .address(InetAddress.getLocalHost())
+                .netAddress(InetAddress.getLocalHost())
                 .createAt(new Date().toString())
                 .build();
 
