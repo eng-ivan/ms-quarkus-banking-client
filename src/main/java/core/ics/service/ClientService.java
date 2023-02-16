@@ -29,4 +29,8 @@ public class ClientService {
                 .filter(c -> c.getStatus().equals(ClientStatus.ACTIVE.toString()))
                 .collect(Collectors.toList());
     }
+
+    public Client findByID(Long id){
+        return clientRepository.findById(id);
+    }
 }
