@@ -7,10 +7,13 @@ import core.ics.model.ConnectionTest;
 import core.ics.service.ClientService;
 import core.ics.utils.AddressRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import io.vertx.core.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,6 +32,10 @@ public class ClientController {
     ClientService clientService;
 
     @Inject
+    @Channel("topico")
+    Emitter<Client> clientEmitter;
+
+    @Inject
     @RestClient
     AddressRequest request;
 
@@ -42,6 +49,7 @@ public class ClientController {
         Client clientSaved = clientService.save(client);
         ClientDTO dto = new ClientDTO(clientSaved);
         dto.setAddress(address);
+        clientEmitter.send(clientSaved);
 
         return Response
                 .status(Response.Status.CREATED)
