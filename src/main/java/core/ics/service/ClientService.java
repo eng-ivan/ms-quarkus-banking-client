@@ -33,4 +33,8 @@ public class ClientService {
     public Client findByID(Long id){
         return clientRepository.findById(id);
     }
+
+    public List<Client> findByName(String name){
+        return clientRepository.list("name", name);
+    }
 }
