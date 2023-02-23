@@ -7,6 +7,8 @@ import core.ics.model.ConnectionTest;
 import core.ics.service.ClientService;
 import core.ics.utils.AddressRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,6 +31,10 @@ public class ClientController {
     ClientService clientService;
 
     @Inject
+    @Channel("topico")
+    Emitter<Client> clientEmitter;
+
+    @Inject
     @RestClient
     AddressRequest request;
 
@@ -42,6 +48,7 @@ public class ClientController {
         Client clientSaved = clientService.save(client);
         ClientDTO dto = new ClientDTO(clientSaved);
         dto.setAddress(address);
+        clientEmitter.send(clientSaved);
 
         return Response
                 .status(Response.Status.CREATED)
@@ -53,7 +60,7 @@ public class ClientController {
     @GET
     @Path(value = "/client/{id}")
     public Response findByID(@PathParam("id") Long id){
-        log.info("fetch ID {}", id);
+        log.info("fetch ID {}", clientService.findByID(id));
 
         return Response
                 .status(Response.Status.OK)
@@ -71,6 +78,18 @@ public class ClientController {
                 .status(Response.Status.OK)
                 .entity(clientService.list())
                 .location(URI.create("/api/client/list"))
+                .build();
+    }
+
+    @GET
+    @Path(value = "/client")
+    public Response findName(@QueryParam("name") String name){
+        log.info("fetch list {}", clientService.findByName(name));
+
+        return Response
+                .status(Response.Status.OK)
+                .entity(clientService.findByName(name))
+                .location(URI.create("/api/client"))
                 .build();
     }
 
