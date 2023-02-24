@@ -40,9 +40,6 @@ jobs:
     
     - name: Build Docker Compose
       run: docker-compose up -d
-    
-    - name: Containers Stopped
-      run: docker-compose down -d
       
     - name: Finish Workflow
       run: echo 'Finished Workflow'
