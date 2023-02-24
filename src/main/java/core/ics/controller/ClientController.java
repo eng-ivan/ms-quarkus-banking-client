@@ -47,9 +47,9 @@ public class ClientController {
     @RestClient
     CardRequest cardRequest;
 
-    @Inject
-    @RestClient
-    PixRequest pixRequest;
+    //@Inject
+    //@RestClient
+    //PixRequest pixRequest;
 
     @POST
     @Path(value = "/client/save")
@@ -60,7 +60,7 @@ public class ClientController {
         Address address = addressRequest.requestAddress(client.getAddress());
         Account account = accountRequest.account();
         Card card = cardRequest.card();
-        Pix pix = pixRequest.pix(client.getPixKey());
+        //Pix pix = pixRequest.pix(client.getPixKey());
 
         Client clientSaved = clientService.save(client);
 
@@ -71,7 +71,7 @@ public class ClientController {
         dto.setAccount(account);
         dto.setCard(card);
         dto.getCard().setCardHolder(client.getName());
-        dto.setPixKey(pix);
+        //dto.setPixKey(pix);
 
         return Response
                 .status(Response.Status.CREATED)
