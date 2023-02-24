@@ -38,8 +38,8 @@ jobs:
     - name: Build Clean Maven Verify
       run: mvn clean verify -DskipTests=true
     
-    - name: Build Docker
-      run: docker build -t nginx:latest
+    - name: Build Docker Compose
+      run: docker-compose up -d
       
     - name: Run Docker
       run: docker run --name=nginx -d -p 80:80 nginx:latest
