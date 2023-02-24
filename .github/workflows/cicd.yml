@@ -19,9 +19,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    
-    - name: Clone Project
-      run: git clone https://github.com/eng-ivan/ms-quarkus-banking-client.git
       
     - name: Build with Maven
       run: mvn -B package -DskipTests=true --file pom.xml
