@@ -70,6 +70,8 @@ services:
     restart: always
     privileged: true
     user: root
+    networks:
+      - banking_network
     ports:
       - "9000:8080"
       - "50000:50000"
