@@ -1,9 +1,7 @@
-pipeline{
+node {
+        stages{
 
-    agent any
-
-    node {
-        stages{ stage('Preparation') { git branch: 'develop', url: 'https://github.com/eng-ivan/ms-quarkus-banking-client.git' }
+        stage('Preparation') { git branch: 'develop', url: 'https://github.com/eng-ivan/ms-quarkus-banking-client.git' }
 
         stage('Verify Directory') { sh 'ls' }
 
@@ -15,7 +13,7 @@ pipeline{
 
         stage('Javac version') { sh 'javac -version' }
 
-        stage('Finalize') { echo 'Build Finished'}
+        stage('Finalize') { echo 'Build Finished' }
     }
 
         stage('Checkout SCM'){
@@ -29,4 +27,3 @@ pipeline{
             }
         }
     }
-}
