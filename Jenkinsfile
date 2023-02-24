@@ -1,7 +1,7 @@
 node {
 
      stage('Preparation') {
-         git branch: 'develop',
+         git branch: 'master',
          url: 'https://github.com/eng-ivan/ms-quarkus-banking-client.git' }
 
      stage('Verify Directory') { sh 'ls' }
