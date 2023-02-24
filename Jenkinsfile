@@ -2,8 +2,6 @@ pipeline{
 
     agent any
 
-    tools { maven 'maven_3_9_0' }
-
     stages{
 
         stage('Checkout'){
