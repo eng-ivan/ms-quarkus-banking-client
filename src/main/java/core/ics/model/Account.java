@@ -7,18 +7,17 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
-public class Address implements Serializable {
+public class Account implements Serializable {
 
-    String cep;
-    String logradouro;
-    String bairro;
-    String localidade;
-    String uf;
-
+    Long id;
+    String agency;
+    String account;
+    LocalDateTime createAt;
 }

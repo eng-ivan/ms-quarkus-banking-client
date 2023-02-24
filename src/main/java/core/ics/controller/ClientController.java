@@ -1,11 +1,12 @@
 package core.ics.controller;
 
 import core.ics.dto.ClientDTO;
-import core.ics.model.Address;
-import core.ics.model.Client;
-import core.ics.model.ConnectionTest;
+import core.ics.model.*;
 import core.ics.service.ClientService;
+import core.ics.utils.AccountRequest;
 import core.ics.utils.AddressRequest;
+import core.ics.utils.CardRequest;
+import core.ics.utils.PixRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -36,19 +37,41 @@ public class ClientController {
 
     @Inject
     @RestClient
-    AddressRequest request;
+    AddressRequest addressRequest;
+
+    @Inject
+    @RestClient
+    AccountRequest accountRequest;
+
+    @Inject
+    @RestClient
+    CardRequest cardRequest;
+
+    @Inject
+    @RestClient
+    PixRequest pixRequest;
 
     @POST
     @Path(value = "/client/save")
     @Transactional
     public Response saveClient(Client client){
         log.info("Client Saved {}", client);
+        log.info("Client ID {}", client.getId());
+        Address address = addressRequest.requestAddress(client.getAddress());
+        Account account = accountRequest.account();
+        Card card = cardRequest.card();
+        Pix pix = pixRequest.pix(client.getPixKey());
 
-        Address address = request.requestAddress(client.getAddress());
         Client clientSaved = clientService.save(client);
+
+        clientEmitter.send(clientSaved);
+
         ClientDTO dto = new ClientDTO(clientSaved);
         dto.setAddress(address);
-        clientEmitter.send(clientSaved);
+        dto.setAccount(account);
+        dto.setCard(card);
+        dto.getCard().setCardHolder(client.getName());
+        dto.setPixKey(pix);
 
         return Response
                 .status(Response.Status.CREATED)
@@ -59,7 +82,7 @@ public class ClientController {
 
     @GET
     @Path(value = "/client/{id}")
-    public Response findByID(@PathParam("id") Long id){
+    public Response findByID(@PathParam("id") String id){
         log.info("fetch ID {}", clientService.findByID(id));
 
         return Response

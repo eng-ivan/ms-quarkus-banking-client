@@ -39,7 +39,7 @@ public class ClientApplicationTest {
                 .body("name", is("Ivan Carlos dos Santos"))
                 .body("birthDay", is("13/01/1985"))
                 .body("address", is("13063240"))
-                .body("pixKey", is("ivan.santos@ibm.com"));
+                .body("pixKey", is("ivansantos.ronem@gmail.com"));
     }
 
     @Test
