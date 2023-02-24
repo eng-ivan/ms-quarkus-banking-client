@@ -19,7 +19,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B package -DskipTest=true --file pom.xml
+      run: mvn -B package -DskipTests=true --file pom.xml
       
     - name: Show Maven Version
       run: mvn --version
@@ -34,10 +34,10 @@ jobs:
       run: curl https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL
 
     - name: Build Clean Maven Install
-      run: mvn clean install -DskipTest=true
+      run: mvn clean install -DskipTests=true
       
     - name: Build Clean Maven Verify
-      run: mvn clean verify -DskipTest=true
+      run: mvn clean verify -DskipTests=true
     
     - name: Build Docker Compose
       run: docker-compose up -d
