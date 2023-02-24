@@ -31,5 +31,6 @@ public class ClientDTO implements Serializable {
         this.id       = client.getId();
         this.name     = client.getName();
         this.status   = client.getStatus();
+        this.createAt = client.getCreateAt();
     }
 }

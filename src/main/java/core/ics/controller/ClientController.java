@@ -6,7 +6,6 @@ import core.ics.service.ClientService;
 import core.ics.utils.AccountRequest;
 import core.ics.utils.AddressRequest;
 import core.ics.utils.CardRequest;
-import core.ics.utils.PixRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
