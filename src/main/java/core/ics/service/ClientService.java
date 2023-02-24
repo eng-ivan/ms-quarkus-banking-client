@@ -3,6 +3,7 @@ package core.ics.service;
 import core.ics.model.Client;
 import core.ics.repository.ClientRepository;
 import core.ics.status.ClientStatus;
+import core.ics.utils.ValidateParameter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,7 +31,8 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-    public Client findByID(Long id){
+    public Client findByID(String value){
+        Long id = ValidateParameter.validate(value);
         return clientRepository.findById(id);
     }
 

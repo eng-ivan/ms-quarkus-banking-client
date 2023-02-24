@@ -1,13 +1,13 @@
 package core.ics.dto;
 
-import core.ics.model.Address;
-import core.ics.model.Client;
+import core.ics.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -16,22 +16,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class ClientDTO {
+public class ClientDTO implements Serializable {
 
     Long id;
     String name;
-    String birthDay;
+    Account account;
+    Card card;
     Address address;
-    String pixKey;
+    Pix pixKey;
     String status;
     LocalDateTime createAt;
 
     public ClientDTO(Client client) {
-
         this.id       = client.getId();
         this.name     = client.getName();
-        this.birthDay = client.getBirthDay();
-        this.pixKey   = client.getPixKey();
         this.status   = client.getStatus();
     }
 }
