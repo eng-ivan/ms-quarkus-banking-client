@@ -26,15 +26,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: sock docker container
+        run: ln -s $HOME/.docker/run/docker.sock /var/run/docker.sock
+
       - name: runner test
         run: mvn test
 
-  deploy:
+  package:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: deploy ms
+      - name: package application
         run: |
           mvn clean install
           mvn package
