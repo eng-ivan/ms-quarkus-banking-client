@@ -15,12 +15,10 @@ public class ConnectionTest {
     String createAt;
 
     public static ConnectionTest test() throws UnknownHostException {
-        ConnectionTest test = ConnectionTest
+        return ConnectionTest
                 .builder()
                 .netAddress(InetAddress.getLocalHost())
                 .createAt(new Date().toString())
                 .build();
-
-        return test;
     }
 }
