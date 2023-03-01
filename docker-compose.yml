@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
 
@@ -19,7 +19,7 @@ services:
     image: dpage/pgadmin4
     container_name: pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL:    "mail@mail.com"
+      PGADMIN_DEFAULT_EMAIL:    "email@email.com"
       PGADMIN_DEFAULT_PASSWORD: "12345"
     ports:
      - "15432:80"
@@ -27,15 +27,6 @@ services:
      - data_base
     networks:
      - banking_network
-
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    ports:
-      - "8090:8080"
-    networks:
-      - banking_network
 
   prometheus:
     image: prom/prometheus:v2.26.0
@@ -63,18 +54,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-
-  jenkins:
-    image: jenkins/jenkins:lts-jdk11
-    container_name: jenkins
-    restart: always
-    privileged: true
-    user: root
-    networks:
-      - banking_network
-    ports:
-      - "9000:8080"
-      - "50000:50000"
 
 networks:
   banking_network:

@@ -1,0 +1,73 @@
+name: Build Tests and Deploy Application
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package -DskipTests=true  --file pom.xml
+
+  version_verify:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: list Directories
+        run: ls -lha
+
+      - name: Show Java Version
+        run: java --version
+
+      - name: Show Maven Version
+        run: mvn --version
+
+      - name: Show Git Version
+        run: git --version
+
+      - name: Build with Maven
+        run: mvn -B package -DskipTests=true --file pom.xml
+
+  QA-Test:
+    needs: [build, version_verify]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test Application
+        run: |
+          mvn clean verify -DskipTests=true 
+          ls -lha
+          docker run -d --name=nginx -p 80:80 nginx:latest
+
+  tests:
+    needs: [QA-Test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test Application
+        run: mvn clean verify -DskipTests=true
+
+  deploy:
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy Application
+        run: |
+          mvn clean install -DskipTests=true 
+          mvn package -DskipTests=true 
