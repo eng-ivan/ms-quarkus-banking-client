@@ -1,13 +1,17 @@
 package core.ics.service;
 
-import core.ics.model.Client;
+import core.ics.dto.ClientDTO;
+import core.ics.exceptions.BusinessException;
+import core.ics.model.*;
 import core.ics.repository.ClientRepository;
 import core.ics.status.ClientStatus;
-import core.ics.utils.ValidateParameter;
+import core.ics.utils.*;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -15,6 +19,22 @@ public class ClientService {
 
     @Inject
     ClientRepository clientRepository;
+
+    @Inject
+    @RestClient
+    AddressRequest addressRequest;
+
+    @Inject
+    @RestClient
+    AccountRequest accountRequest;
+
+    @Inject
+    @RestClient
+    CardRequest cardRequest;
+
+    @Inject
+    @RestClient
+    PixRequest pixRequest;
 
     public Client save(Client client){
 
@@ -36,7 +56,33 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
-    public List<Client> findByName(String name){
-        return clientRepository.list("name", name);
+    public ClientDTO findClientFullData(String value){
+
+        Long id = ValidateParameter.validate(value);
+        Client c = clientRepository.findById(id);
+
+        Account account = accountRequest.findAccountByID(value);
+        Card card = cardRequest.findCardByID(value);
+        Address address = addressRequest.requestAddress(c.getAddress());
+        Pix pixKey = pixRequest.findPixKeyByID(value);
+
+        ClientDTO dto = new ClientDTO();
+
+        dto.setAccount(account);
+        dto.setCard(card);
+        dto.setAddress(address);
+        dto.setPixKey(pixKey);
+
+        return dto;
     }
+
+    public List<Client> findByName(String name){
+        return clientRepository
+                .list("name", name)
+                .stream()
+                .filter(cl->cl.getStatus().equals(ClientStatus.ACTIVE.toString()))
+                .collect(Collectors.toList());
+    }
+
+    // https://renatogroffe.medium.com/postgresql-pgadmin-4-docker-compose-montando-rapidamente-um-ambiente-para-uso-55a2ab230b89
 }

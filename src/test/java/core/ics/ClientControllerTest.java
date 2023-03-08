@@ -3,15 +3,13 @@ package core.ics;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
 
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.Response.Status.OK;
-import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 @QuarkusTestResource(InitializerTestContainer.class)

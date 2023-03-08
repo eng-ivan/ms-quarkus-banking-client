@@ -1,4 +1,4 @@
-name: Build Tests and Deploy Application
+name: CI
 
 on:
   push:
@@ -28,6 +28,9 @@ jobs:
       - name: list Directories
         run: ls -lha
 
+      - name: Show active user
+        run: whoami
+
       - name: Show Java Version
         run: java --version
 
@@ -36,6 +39,12 @@ jobs:
 
       - name: Show Git Version
         run: git --version
+
+      - name: Show Docker Version
+        run: docker --version
+
+      - name: Show docker-compose Version
+        run: docker-compose --version
 
       - name: Build with Maven
         run: mvn -B package -DskipTests=true --file pom.xml
