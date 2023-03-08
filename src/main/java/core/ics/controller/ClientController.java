@@ -82,12 +82,24 @@ public class ClientController {
     @GET
     @Path(value = "/client/{id}")
     public Response findByID(@PathParam("id") String id){
-        log.info("fetch ID {}", clientService.findByID(id));
+        log.info("fetch ID {}", id);
 
         return Response
                 .status(Response.Status.OK)
                 .entity(clientService.findByID(id))
                 .location(URI.create("/api/client/id"))
+                .build();
+    }
+
+    @GET
+    @Path(value = "/client/full-data/{id}")
+    public Response findFullDataClient(@PathParam("id") String id){
+        log.info("fetch full data client ID {}", id);
+
+        return Response
+                .status(Response.Status.OK)
+                .entity(clientService.findClientFullData(id))
+                .location(URI.create("/api/client/full-data/id"))
                 .build();
     }
 
@@ -106,7 +118,7 @@ public class ClientController {
     @GET
     @Path(value = "/client")
     public Response findName(@QueryParam("name") String name){
-        log.info("fetch list {}", clientService.findByName(name));
+        log.info("fetch by name {}", clientService.findByName(name));
 
         return Response
                 .status(Response.Status.OK)

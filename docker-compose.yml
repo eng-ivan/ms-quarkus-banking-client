@@ -18,8 +18,9 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
+    restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL:    "email@email.com"
+      PGADMIN_DEFAULT_EMAIL:    "admin@admin.com"
       PGADMIN_DEFAULT_PASSWORD: "12345"
     ports:
      - "15432:80"

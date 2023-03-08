@@ -1,5 +1,6 @@
 package core.ics.utils;
 
+import core.ics.exceptions.BusinessException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -18,7 +19,7 @@ public class ValidateParameter {
             return Long.parseLong(value);
         }catch(NumberFormatException e){
             log.error("error {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new BusinessException(e.getMessage());
         }
     }
 }
