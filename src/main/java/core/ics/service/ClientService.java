@@ -1,7 +1,6 @@
 package core.ics.service;
 
 import core.ics.dto.ClientDTO;
-import core.ics.exceptions.BusinessException;
 import core.ics.model.*;
 import core.ics.repository.ClientRepository;
 import core.ics.status.ClientStatus;
@@ -11,7 +10,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -32,10 +30,6 @@ public class ClientService {
     @RestClient
     CardRequest cardRequest;
 
-    @Inject
-    @RestClient
-    PixRequest pixRequest;
-
     public Client save(Client client){
 
         client.setStatus(ClientStatus.ACTIVE.toString());
@@ -51,9 +45,10 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-    public Client findByID(String value){
+    public ClientDTO findByID(String value){
         Long id = ValidateParameter.validate(value);
-        return clientRepository.findById(id);
+        Client c = clientRepository.findById(id);
+        return new ClientDTO(c);
     }
 
     public ClientDTO findClientFullData(String value){
@@ -64,14 +59,12 @@ public class ClientService {
         Account account = accountRequest.findAccountByID(value);
         Card card = cardRequest.findCardByID(value);
         Address address = addressRequest.requestAddress(c.getAddress());
-        Pix pixKey = pixRequest.findPixKeyByID(value);
 
         ClientDTO dto = new ClientDTO();
 
         dto.setAccount(account);
         dto.setCard(card);
         dto.setAddress(address);
-        dto.setPixKey(pixKey);
 
         return dto;
     }
