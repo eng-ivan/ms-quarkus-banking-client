@@ -33,8 +33,8 @@ public class Client implements Serializable {
     @Column(name = "address_cep")
     String address;
 
-    @Column(name = "pix_key")
-    String pixKey;
+    @Column(name = "email")
+    String email;
 
     @Column(name = "status")
     String status;

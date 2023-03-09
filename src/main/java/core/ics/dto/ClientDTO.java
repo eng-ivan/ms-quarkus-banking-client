@@ -23,13 +23,14 @@ public class ClientDTO implements Serializable {
     Account account;
     Card card;
     Address address;
-    Pix pixKey;
+    String email;
     String status;
     LocalDateTime createAt;
 
     public ClientDTO(Client client) {
         this.id       = client.getId();
         this.name     = client.getName();
+        this.email    = client.getEmail();
         this.status   = client.getStatus();
         this.createAt = client.getCreateAt();
     }
