@@ -18,7 +18,10 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
+import java.util.Date;
 
 @Slf4j
 @ApplicationScoped
@@ -128,9 +131,14 @@ public class ClientController {
 
     @GET
     @Path(value = "/test")
-    public Response connectionTest() {
+    public Response connectionTest() throws UnknownHostException {
         log.info("Connection Test ");
-        ConnectionTest test = connectionTestRequest.test();
+        ConnectionTest test = ConnectionTest
+                .builder()
+                .address(InetAddress.getLocalHost())
+                .createAt(new Date().toString())
+                .build();
+
         return Response
                 .status(Response.Status.OK)
                 .entity(test)
