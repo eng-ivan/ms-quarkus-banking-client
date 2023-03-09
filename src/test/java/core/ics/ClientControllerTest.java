@@ -41,7 +41,7 @@ public class ClientControllerTest {
         given()
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
                 .when()
-                .get("/api/connection-test")
+                .get("/api/test")
                 .then()
                 .statusCode(OK.getStatusCode());
     }
