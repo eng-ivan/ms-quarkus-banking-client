@@ -11,7 +11,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -31,10 +30,6 @@ public class ClientService {
     @Inject
     @RestClient
     CardRequest cardRequest;
-
-    @Inject
-    @RestClient
-    PixRequest pixRequest;
 
     public Client save(Client client){
 
@@ -64,14 +59,12 @@ public class ClientService {
         Account account = accountRequest.findAccountByID(value);
         Card card = cardRequest.findCardByID(value);
         Address address = addressRequest.requestAddress(c.getAddress());
-        Pix pixKey = pixRequest.findPixKeyByID(value);
 
         ClientDTO dto = new ClientDTO();
 
         dto.setAccount(account);
         dto.setCard(card);
         dto.setAddress(address);
-        dto.setPixKey(pixKey);
 
         return dto;
     }

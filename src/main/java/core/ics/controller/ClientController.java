@@ -6,6 +6,7 @@ import core.ics.service.ClientService;
 import core.ics.utils.AccountRequest;
 import core.ics.utils.AddressRequest;
 import core.ics.utils.CardRequest;
+import core.ics.utils.ConnectionTestRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -17,8 +18,10 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 @Slf4j
 @ApplicationScoped
@@ -46,9 +49,10 @@ public class ClientController {
     @RestClient
     CardRequest cardRequest;
 
-    //@Inject
-    //@RestClient
-    //PixRequest pixRequest;
+    @Inject
+    @RestClient
+    ConnectionTestRequest connectionTestRequest;
+
 
     @POST
     @Path(value = "/client/save")
@@ -59,7 +63,6 @@ public class ClientController {
         Address address = addressRequest.requestAddress(client.getAddress());
         Account account = accountRequest.account();
         Card card = cardRequest.card();
-        //Pix pix = pixRequest.pix(client.getPixKey());
 
         Client clientSaved = clientService.save(client);
 
@@ -70,7 +73,6 @@ public class ClientController {
         dto.setAccount(account);
         dto.setCard(card);
         dto.getCard().setCardHolder(client.getName());
-        //dto.setPixKey(pix);
 
         return Response
                 .status(Response.Status.CREATED)
@@ -128,13 +130,19 @@ public class ClientController {
     }
 
     @GET
-    @Path(value = "/connection-test")
+    @Path(value = "/test")
     public Response connectionTest() throws UnknownHostException {
-        log.info("Connection Test {}", ConnectionTest.test().toString());
+        log.info("Connection Test ");
+        ConnectionTest test = ConnectionTest
+                .builder()
+                .address(InetAddress.getLocalHost())
+                .createAt(new Date().toString())
+                .build();
+
         return Response
                 .status(Response.Status.OK)
-                .entity(ConnectionTest.test())
-                .location(URI.create("/api/connection-test"))
+                .entity(test)
+                .location(URI.create("/api/test"))
                 .build();
     }
 }

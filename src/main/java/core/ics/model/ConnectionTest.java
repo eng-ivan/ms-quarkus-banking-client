@@ -1,24 +1,17 @@
 package core.ics.model;
 
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
+import java.io.Serializable;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
 
-@SuperBuilder
+@Builder
 @Getter
-public class ConnectionTest {
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ConnectionTest implements Serializable {
 
-    InetAddress netAddress;
-    String createAt;
-
-    public static ConnectionTest test() throws UnknownHostException {
-        return ConnectionTest
-                .builder()
-                .netAddress(InetAddress.getLocalHost())
-                .createAt(new Date().toString())
-                .build();
-    }
+    private InetAddress address;
+    private String createAt;
 }
