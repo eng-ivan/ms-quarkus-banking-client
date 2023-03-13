@@ -12,7 +12,6 @@ import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.Response.Status.OK;
 
 @QuarkusTest
-@QuarkusTestResource(InitializerTestContainer.class)
 public class ClientControllerTest {
 
 

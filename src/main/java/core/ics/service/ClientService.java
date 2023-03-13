@@ -1,7 +1,6 @@
 package core.ics.service;
 
 import core.ics.dto.ClientDTO;
-import core.ics.exceptions.BusinessException;
 import core.ics.model.*;
 import core.ics.repository.ClientRepository;
 import core.ics.status.ClientStatus;
