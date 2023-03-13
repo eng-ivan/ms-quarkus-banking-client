@@ -6,10 +6,7 @@ import core.ics.service.ClientService;
 import core.ics.utils.AccountRequest;
 import core.ics.utils.AddressRequest;
 import core.ics.utils.CardRequest;
-import core.ics.utils.ConnectionTestRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,10 +31,6 @@ public class ClientController {
     ClientService clientService;
 
     @Inject
-    @Channel("topico")
-    Emitter<Client> clientEmitter;
-
-    @Inject
     @RestClient
     AddressRequest addressRequest;
 
@@ -48,10 +41,6 @@ public class ClientController {
     @Inject
     @RestClient
     CardRequest cardRequest;
-
-    @Inject
-    @RestClient
-    ConnectionTestRequest connectionTestRequest;
 
 
     @POST
@@ -66,9 +55,8 @@ public class ClientController {
 
         Client clientSaved = clientService.save(client);
 
-        clientEmitter.send(clientSaved);
-
         ClientDTO dto = new ClientDTO(clientSaved);
+
         dto.setAddress(address);
         dto.setAccount(account);
         dto.setCard(card);
