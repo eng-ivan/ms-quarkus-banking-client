@@ -22,6 +22,7 @@ public class InitializerContainerTest implements QuarkusTestResourceLifecycleMan
 
         return config;
     }
+
     @Override
     public Map<String, String> start() {
         postgreSQLContainer.start();
