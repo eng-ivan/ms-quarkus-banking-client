@@ -1,6 +1,5 @@
 package core.ics;
 
-import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,7 @@ import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.Response.Status.OK;
 
 @QuarkusTest
-@QuarkusTestResource(InitializerContainerTest.class)
+//@QuarkusTestResource(InitializerContainerTest.class)
 public class ClientControllerTest {
 
 
@@ -46,4 +45,5 @@ public class ClientControllerTest {
                 .statusCode(OK.getStatusCode());
     }
 
+    //sudo ln -s $HOME/.docker/run/docker.sock /var/run/docker.sock
 }
